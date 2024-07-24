@@ -1,6 +1,5 @@
 from bottle import get, post, request, template
 import x
-from icecream import ic
 import bcrypt
 import uuid
 import time

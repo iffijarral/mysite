@@ -2,8 +2,6 @@ import pathlib
 from bottle import request, response, template
 import re
 import sqlite3
-from icecream import ic
-import requests
 import smtplib
 import time
 import hashlib
@@ -28,24 +26,6 @@ def db():
     db = sqlite3.connect(str(pathlib.Path(__file__).parent.resolve())+"/company.db")  
     db.row_factory = dict_factory
     return db
-
-
-##############################
-def arango(query, type = "cursor"):
-    try:
-        url = f"http://arangodb:8529/_api/{type}"
-        res = requests.post( url, json = query )
-        ic(res)
-        ic(res.text)
-        return res.json()
-    except Exception as ex:
-        print("#"*50)
-        print(ex)
-    finally:
-        pass
-
-
-
 
 ##############################
 def no_cache():
@@ -435,7 +415,7 @@ def get_booking_data():
             booking_data = json.loads(cookie_value)
             return booking_data
         except json.JSONDecodeError:
-            ic(json.JSONDecodeError)
+            print(json.JSONDecodeError)
             return None
     return None
 

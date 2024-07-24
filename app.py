@@ -1,7 +1,6 @@
 
-from bottle import default_app, delete, get, post, put, response, request, hook, redirect, run, static_file, template
+from bottle import default_app, get, response, request, hook, run, static_file, template
 import x
-from icecream import ic
 import json
 import credentials
 

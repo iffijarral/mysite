@@ -1,7 +1,5 @@
 from bottle import get, post, response, request, template
-
 import x
-from icecream import ic
 import bcrypt
 
 ############################## show form to change password via menu item
@@ -15,7 +13,7 @@ def _():
         return template("auth/change_password", user = user)       
         
     except Exception as ex:
-        ic(ex)
+        print(ex)
         response.status = 303   
         response.set_header('Location', '/login')
         return
@@ -60,7 +58,7 @@ def _():
         """
         
     except Exception as ex:
-            ic(ex)            
+            print(ex)            
             return f"""
                 <template mix-target="#toast">
                     <div mix-ttl="3000" class="toast show">

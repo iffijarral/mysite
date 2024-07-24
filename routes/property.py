@@ -3,7 +3,6 @@
 
 from bottle import delete, get, post, put, response, request, template
 import x
-from icecream import ic
 import json
 import credentials
 import uuid
@@ -34,7 +33,7 @@ def _():
         return template("property/view_property", user = user, items = items, mapbox_token = mapbox_token, ITEMS_PER_PAGE = x.ITEMS_PER_PAGE)
             
     except Exception as ex:
-        ic(ex)
+        print(ex)
         response.status = 303 
         response.set_header('Location', '/login')
         return
@@ -52,7 +51,7 @@ def _():
         return template("property/add_property", user = user, property=None, address=None, property_images = None)
             
     except Exception as ex:
-        ic(ex)
+        print(ex)
         response.status = 303 
         response.set_header('Location', '/login')
         return
@@ -83,7 +82,7 @@ def _(id):
         return template('property/add_property', property=property, address=address, property_images = property_images, user = user) # add_property because same form will be used to edit
     
     except Exception as ex:
-        ic(ex)
+        print(ex)
         response.status = 303 
         response.set_header('Location', '/login')
         return
@@ -115,7 +114,7 @@ def _(property_id):
         return template("property/_property_details", property = property, property_images = property_images, mapbox_token = credentials.mapbox_token, user = user, booking = booking)
     
     except Exception as ex:
-        ic(ex)
+        print(ex)
     finally:
         if "db" in locals(): db.close()
 
@@ -179,7 +178,7 @@ def _():
             <template mix-function="resetForm">                             
         """                                                                                                     
     except Exception as ex:
-            ic(ex)            
+            print(ex)            
             return f"""
                 <template mix-target="#toast">
                     <div mix-ttl="3000" class="toast show">
@@ -283,7 +282,7 @@ def _(property_id):
             """
         
     except Exception as ex:
-            ic(ex)            
+            print(ex)            
             return f"""
                 <template mix-target="#toast">
                     <div mix-ttl="3000" class="toast show">
@@ -332,7 +331,7 @@ def _(property_id):
                 <template mix-redirect="/properties"></template>                          
             """
     except Exception as ex:
-            ic(ex)            
+            print(ex)            
             return f"""
                 <template mix-target="#toast">
                     <div mix-ttl="5000" class="toast show">
@@ -381,7 +380,7 @@ def _(page_number):
         <template mix-function="addToMap">{items_json}</template> 
         """
     except Exception as ex:
-        ic(ex)
+        print(ex)
         return "ups..."
     finally:
         if "db" in locals(): db.close()
@@ -434,7 +433,7 @@ def _():
                 </template>                
             """
     except Exception as ex:
-        ic(ex)
+        print(ex)
     finally:
         if "db" in locals(): db.close()
 

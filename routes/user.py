@@ -1,7 +1,6 @@
 
 from bottle import get, post, response, request, template
 import x
-from icecream import ic
 import json
 
 ############################## change profile
@@ -19,7 +18,7 @@ def _():
         return template("profile/profile", user = user)
 
     except Exception as ex:
-        ic(ex)
+        print(ex)
         response.status = 303 
         response.set_header('Location', '/login')
         return
@@ -64,7 +63,7 @@ def _():
         """
         
     except Exception as ex:
-            ic(ex)            
+            print(ex)            
             return f"""
                 <template mix-target="#toast">
                     <div mix-ttl="3000" class="toast show">
@@ -121,7 +120,7 @@ def _(property_id):
                 <template mix-function="resetForm"></template>
             """     
     except Exception as ex:
-            ic(ex)       
+            print(ex)       
             if "UNIQUE constraint failed" in ex.args[0]:
                 return f"""
                     <template mix-target="#toast">
@@ -160,7 +159,7 @@ def _():
         return template("user/bookings", user = user, bookings = bookings)
     
     except Exception as ex:
-        ic(ex)
+        print(ex)
     finally:
         if "db" in locals(): db.close()
         

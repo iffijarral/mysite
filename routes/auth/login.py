@@ -1,6 +1,5 @@
 from bottle import get, post, response, request, template
 import x
-from icecream import ic
 import bcrypt
 
 ##############################
@@ -15,7 +14,7 @@ def _():
        else:
             return template("auth/login.html", user = user)   
     except Exception as ex:
-        ic(ex)
+        print(ex)
 
 ##############################
 @post("/login")
@@ -64,7 +63,7 @@ def _():
             </template>
             """
         except Exception as ex:
-            ic(ex)
+            print(ex)
             response.status = 500
             return f"""
             <template mix-target="#toast">

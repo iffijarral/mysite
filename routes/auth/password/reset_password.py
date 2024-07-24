@@ -1,6 +1,5 @@
 from bottle import get, post, response, request, template
 import x
-from icecream import ic
 import bcrypt
 
 ############################## Show forgot password form
@@ -63,7 +62,7 @@ def _():
                 </template>                       
             """
     except Exception as ex:
-            ic(ex)
+            print(ex)
             response.status = 500
             return f"""
                 <template mix-target="#toast">
@@ -118,7 +117,7 @@ def _():
                 </template>                                                       
             """
     except Exception as ex:
-            ic(ex)            
+            print(ex)            
             return f"""
                 <template mix-target="#toast">
                     <div mix-ttl="3000" class="toast show">

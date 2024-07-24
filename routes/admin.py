@@ -1,7 +1,6 @@
 from bottle import get, post, request, template
 import x
 import bcrypt
-from icecream import ic
 
 ############################## show manage users for admin
 @get("/admin/users")
@@ -18,7 +17,7 @@ def _():
         return template("admin/users", user = user, users = users)       
         
     except Exception as ex:
-        ic(ex)
+        print(ex)
         
         return
     finally:
@@ -69,7 +68,7 @@ def _(user_id):
         """            
 
     except Exception as ex:
-            ic(ex)            
+            print(ex)            
             return f"""
                 <template mix-target="#toast">
                     <div mix-ttl="5000" class="toast show">
@@ -121,7 +120,7 @@ def _(property_id):
         """            
 
     except Exception as ex:
-            ic(ex)            
+            print(ex)            
             return f"""
                 <template mix-target="#toast">
                     <div mix-ttl="5000" class="toast show">
@@ -176,7 +175,7 @@ def _():
             """      
 
     except Exception as ex:
-            ic(ex)            
+            print(ex)            
             return f"""
                 <template mix-target="#toast">
                     <div mix-ttl="5000" class="toast show">
@@ -230,7 +229,7 @@ def _():
         return template("profile/_ask_password", user = user)
     
     except Exception as ex:
-        ic(ex)
+        print(ex)
         response.status = 303 
         response.set_header('Location', '/login')
         return

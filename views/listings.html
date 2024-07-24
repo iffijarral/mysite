@@ -1,0 +1,40 @@
+%include("_header")
+
+<main> 
+    <section class="properties-section">
+        <div class="map-container">
+            <div id='map' class="map"></div>            
+            <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
+            <script>
+              mapboxgl.accessToken = "{{mapbox_token}}"
+              var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [12.5683, 55.6761],
+                zoom: 12
+              });
+              var marker1 = new mapboxgl.Marker()
+              .setLngLat([12.5781, 55.6867]) // Marker 1 coordinates
+              .addTo(map);
+            
+            var marker2 = new mapboxgl.Marker()
+              .setLngLat([12.5637, 55.6761]) // Marker 2 coordinates
+              .addTo(map);  
+                          
+            </script>
+        </div>
+        <div class="properties-grid">
+            <div class="property-card">
+                <img src="/images/5dbce622fa2b4f22a6f6957d07ff4956.webp" alt="Property 1" class="property-image">
+                <div class="property-info">
+                    <h3 class="property-title">Cozy Apartment</h3>
+                    <div class="property-rating">★★★★☆</div>
+                    <p class="property-description">A cozy apartment in the heart of the city.</p>
+                    <div class="property-price">$120/night</div>
+                </div>
+            </div>
+        </div>                                            
+    </section>
+</main>
+
+%include("_footer")

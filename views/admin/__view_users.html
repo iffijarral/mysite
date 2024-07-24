@@ -1,0 +1,24 @@
+
+    <table id="tblUsers" class="user-table">
+        <thead>
+            <tr>                
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Example user row -->
+            % if users:
+                % for my_user in users:
+                    %include("admin/_user.html")
+                % end            
+            % else:
+                <tr>
+                    <td colspan="4" style="text-align: center;"> There is no user yet. </td>                    
+                </tr>
+            % end 
+            <!-- Add more user rows here -->
+        </tbody>
+    </table> 

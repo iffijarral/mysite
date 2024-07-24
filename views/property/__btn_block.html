@@ -1,0 +1,23 @@
+<form id="frm_block_{{ item['item_pk'] }}">                        
+    % if item['item_is_blocked'] == 0:
+        <input name="block_unblock_action" type="hidden" value="block">
+        <button
+            mix-data="#frm_block_{{item['item_pk']}}"
+            mix-post="/properties/{{item['item_pk']}}/block"
+            mix-await="Please wait ..."
+            class="block-btn"
+        >
+            Block
+        </button>
+    %else:
+        <input name="block_unblock_action" type="hidden" value="unblock">
+        <button
+            mix-data="#frm_block_{{item['item_pk']}}"
+            mix-post="/properties/{{item['item_pk']}}/block"
+            mix-await="Please wait ..."
+            class="edit-btn"
+        >
+        Un-block
+        </button>
+    % end
+</form>

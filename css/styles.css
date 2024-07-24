@@ -1,0 +1,244 @@
+@import url('./_variables.css');
+
+@import url('./common.css');
+
+@import url('./signup.css');
+
+@import url('./property.css');
+
+@import url('./admin.css');
+
+@import url('./toast.css');
+
+header {
+    width: 100%;    
+    border-bottom: 1px solid var(--medium-gray);
+    position: var(--header-position);
+    top: 0;
+    z-index: 100;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;        
+    padding: 2rem 1rem;
+    width: 100%; 
+    max-width: var(--max-page-width);       
+    margin-inline: auto;
+    background-color: var(--clean-white);
+    
+}
+nav.no-border {
+    border-bottom: none;
+}
+nav a {    
+    text-align: center;
+    text-decoration: none;
+    color: var(--dark-charcoal)
+}
+input::placeholder {
+    color: var(--dark-gray);
+    font-size: var(--font-size-small);    
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+}
+
+/* Logo section */
+.logo {
+    display: flex;
+    align-items: center;
+}
+.logo-text {
+    color: var(--fresh-green);
+    font-size: var(--logo-font-size);
+    font-weight: var(--font-weight-bold);
+}
+.logo-icon {
+    width: 24px;
+    height: 24px;
+    fill: var(--fresh-green); /* Use fresh green for the home icon */
+    margin-right: 0.2rem;
+}
+/* Search section */
+.search-form-container {
+    padding: 0.3rem 1rem;
+    border: 1px solid var(--dark-gray);
+    border-radius: 1rem;
+    /* background-color: var(--light-gray); */
+    width: clamp(15rem, 50vw, 25rem);;
+}
+.search-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.search-form input {    
+    border: 1px solid var(--light-gray);
+    padding: .5rem;
+    border-radius: 5px;    
+    font-size: 1rem;
+    height: fit-content;
+    outline: none;
+}
+
+.search-form input[type="number"] {
+    width: 6rem;
+}
+.search-form button {
+    background: none;
+    vertical-align: middle;
+    border: none;
+}
+.search-form button:is(:hover) {
+    cursor: pointer;
+}
+/* Placeholder Styles for Date Inputs */
+.search-form input[type="date"]:not(:placeholder-shown) {
+    color: #000;
+}
+
+.search-form input[type="date"]::placeholder {
+    color: transparent;
+}
+
+.search-form input[type="date"]:before {
+    content: attr(data-placeholder);
+    color: #888;
+    display: block;
+    width: 100%;
+}
+
+.search-form input[type="date"]:focus:before,
+.search-form input[type="date"]:valid:before {
+    display: none;
+}
+.search-icon {
+    width: 24px;
+    height: 24px;
+    fill: var(--fresh-green);
+    cursor: pointer;
+    transition: fill 0.3s ease;
+}
+
+.search-icon:hover {
+    fill: var(--warm-orange);
+}
+.profile-container {
+    position: relative;
+}
+.profile-icon {
+    /* width: 2rem;
+    height: 2rem; */
+    vertical-align: middle;
+    fill: var(--fresh-green);
+    cursor: pointer;
+    transition: fill 0.3s ease;
+}
+
+.profile-icon:hover {
+    fill: var(--warm-orange);
+}
+.profile-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 2rem; 
+    background: var(--clean-white);
+    border: 1px solid var(--light-gray);
+    box-shadow: var(--box-shadow);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    z-index: 1000;
+    min-width: 12rem;        
+}
+.profile-menu-ul {
+    list-style: none;    
+}
+.profile-menu-ul li {
+    padding: .5rem;
+}
+.warning {
+    color: var(--rich-red);
+}
+
+.card {
+    background-color: var(--clean-white);
+    border: 1px solid var(--medium-gray);
+}
+
+.text-secondary {
+    color: var(--text-light);
+}
+
+section {
+    /* padding: 2rem 1rem;     */
+    margin-inline: auto;    
+}
+
+.section-title {    
+    color: var(--fresh-green);    
+}
+
+.section-description {
+    font-size: var(--font-size-h5);
+    color: var(--dark-charcoal);
+    margin-bottom: 1rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(var(--properties-grid-columns), 1fr);
+    gap: 1rem;
+}
+.grid-2-column {
+    --properties-grid-columns: 2;
+    display: grid;
+    grid-template-columns: repeat(var(--properties-grid-columns), 1fr);
+    gap: 1rem;
+}
+
+.grid img {
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+
+/* Footer Area */
+.footer {
+    background-color: var(--light-gray);
+    margin-top: 1rem;
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--dark-charcoal);
+}
+
+.footer .container {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-logo {
+    margin-bottom: 1rem;
+}
+
+.footer-nav, .footer-social {
+    margin-bottom: 1rem;
+}
+
+.footer-nav a, .footer-social a {
+    margin: 0 0.5rem;
+    text-decoration: none;
+    color: var(--dark-charcoal);
+}
+
+.footer-nav a:hover, .footer-social a:hover {
+    color: var(--fresh-green);
+}

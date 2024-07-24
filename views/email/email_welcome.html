@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+<body>
+    %if action == "signup":
+        %include("email/__email_signup")
+    %elif action == "forgotpassword":
+        %include("email/__email_forgot_password")
+    %elif action == "delete-profile":
+        %include("email/__email_delete_profile")
+    %elif action == "block" or action == 'unblock':
+        %include("email/__email_user_status_change")        
+    %elif action == "property-status":
+        %include("email/__email_property_status_change")        
+    %end
+</body>
+</html>

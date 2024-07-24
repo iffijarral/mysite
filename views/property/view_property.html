@@ -1,0 +1,20 @@
+%include("_header")
+<main>
+    <section>
+        <div class="properties-container">
+            <div class="wrap">
+                <h4>Manage Properties</h4>   
+                % if user and user["user_role"] == 'partner':         
+                    <a href="/properties/create" title="Add Property" class="primary">Add New</a>
+                % end
+            </div>
+            % if items:
+                %include("property/_properties")
+            % else:
+                    <br>
+                    <h6> There is no property to show. </h6>
+            % end
+        </div>
+    </section>
+</main>
+%include("_footer")

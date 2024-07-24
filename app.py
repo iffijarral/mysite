@@ -1,10 +1,18 @@
 
-from bottle import default_app, get, response, request, hook, run, static_file, template
+from bottle import default_app, get, post, response, request, hook, run, static_file, template
 import x
 import json
 import credentials
-
 import os
+import git
+ 
+@post('/secret_url_for_git_hook')
+def git_update():
+  repo = git.Repo('./mysite')
+  origin = repo.remotes.origin
+  repo.create_head('main', origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
+  origin.pull()
+  return ""
 
 ##############################
 # Directory to save uploaded images

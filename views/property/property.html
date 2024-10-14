@@ -1,0 +1,11 @@
+%include("_header")
+<main>
+    <section>
+        %if "items" in locals():
+            %include("property/__view_property")
+        else
+            %include("property/__add_property")
+        %end
+    </section>
+</main>
+%include("_footer")

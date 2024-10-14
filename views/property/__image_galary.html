@@ -1,0 +1,23 @@
+<section class="hero">
+    <div class="hero-main-image">
+        <img src="/{{property['item_splash_image']}}" alt="Main Property Image">
+    </div>
+    <div class="hero-grid-images">
+        % counter = 1
+        
+        % for property_image in property_images:                    
+            %if counter > 3:
+                % break;
+            %end 
+            % if counter != 1:
+                % if property_image['path']:
+                    <img src="/images/{{property_image['path']}}" alt="Property Image {{counter}}">
+                % end               
+            % end
+            % counter += 1;
+        % end                                
+    </div>
+    <div class="hero-thumbnails">
+        <!-- Thumbnail images will be dynamically inserted here -->                                               
+    </div>            
+</section>

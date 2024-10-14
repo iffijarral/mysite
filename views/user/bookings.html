@@ -1,0 +1,33 @@
+%include("_header")
+
+<main>
+    <table class="user-table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Check-in Date</th>
+                <th>Check-out Date</th>
+                <th>Guests</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            % if bookings:
+                % for booking in bookings:
+                <tr>
+                    <td>{{ booking['item_name'] }}</td>
+                    <td>{{ booking['checkin'] }}</td>
+                    <td>{{ booking['checkout'] }}</td>
+                    <td>{{ booking['guests'] }}</td>                
+                </tr>
+                % end
+            % else:
+                <tr>
+                    <td colspan="4" style="text-align: center;"> You don't have any booking </td>                    
+                </tr>
+            % end 
+        </tbody>
+    </table>
+</main>
+
+%include("_footer")

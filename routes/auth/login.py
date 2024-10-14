@@ -1,0 +1,78 @@
+from bottle import get, post, response, request, template
+import x
+import bcrypt
+
+##############################
+@get("/login")
+def _():
+    try:
+
+       user = request.environ.get('user')
+
+       if user:
+           response.set_header('Location', '/')
+       else:
+            return template("auth/login.html", user = user)
+    except Exception as ex:
+        print(ex)
+
+##############################
+@post("/login")
+def _():
+    try:
+        user_email = x.validate_email()
+        user_password = x.validate_password()
+        db = x.db()
+        q = db.execute("SELECT * FROM users WHERE user_email = ? AND user_is_verified = 1 AND user_is_blocked = 0 LIMIT 1", (user_email,))
+        user = q.fetchone()
+
+        if not user: raise Exception("User not found", 400)
+
+        if not bcrypt.checkpw(user_password.encode('utf-8'), user["user_password"]): raise Exception("Invalid credentials", 401)
+
+        user.pop("user_password") # Do not put the user's password in the cookie
+
+        try:
+            import production
+            is_cookie_https = True
+        except:
+            is_cookie_https = False
+
+        response.set_cookie(x.COOKIE_NAME, user, secret=x.COOKIE_SECRET, httponly=True, secure=is_cookie_https)
+
+        booking = x.get_booking_data()
+
+        if booking:
+            return f"""
+                <template mix-redirect="/property/details/{booking['property_id']}">
+                </template>
+            """
+
+        return f"""
+            <template mix-redirect="/">
+            </template>
+        """
+    except Exception as ex:
+        try:
+
+            return f"""
+            <template mix-target="#toast">
+                <div mix-ttl="3000" class="toast show">
+                    {ex.args[0]}
+                </div>
+            </template>
+            """
+        except Exception as ex:
+            print(ex)
+            response.status = 500
+            return f"""
+            <template mix-target="#toast">
+                <div mix-ttl="3000" class="error">
+                   System under maintainance
+                </div>
+            </template>
+            """
+
+
+    finally:
+        if "db" in locals(): db.close()

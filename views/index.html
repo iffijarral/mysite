@@ -1,0 +1,15 @@
+%include("_header")
+
+<main> 
+    <section id="main-section">
+      % if items:
+        %include("property/_properties")
+      % else:                
+              <h6> There is no property to show. </h6>
+      % end                                 
+    </section>
+</main>
+
+%include("_footer")
+
+

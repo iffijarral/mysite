@@ -1,0 +1,23 @@
+%import x
+
+    <form id="frm_profile" class="auth-form" action="#" method="POST">
+        <label for="user_username">Username</label>
+        <input type="text" id="user_username" name="user_username" required mix-check="{{x.USER_USERNAME_REGEX}}" value="{{user['user_username']}}">
+
+        <label for="user_first_name">First Name</label>
+        <input type="text" id="user_first_name" name="user_first_name" required mix-check="{{x.USER_FIRST_NAME_REGEX}}" value="{{user['user_name']}}">
+
+        <label for="user_last_name">Last Name</label>
+        <input type="text" id="user_last_name" name="user_last_name" required mix-check="{{x.USER_LAST_NAME_REGEX}}" value="{{user['user_last_name']}}">   
+                                           
+        <button class=""
+            mix-data="#frm_profile"
+            mix-post="/profile"
+            mix-default="Profile"
+            mix-await="Please wait ..."
+        >
+            Submit
+        </button>
+        
+    </form>
+    

@@ -1,0 +1,116 @@
+<div id='map' class="map"></div>
+
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
+<script>
+  mapboxgl.accessToken = "{{mapbox_token}}";
+  let map;
+
+  if (!map) {
+      map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/streets-v11',
+          center: [12.5683, 55.6761],  // Initial center
+          zoom: 12  // Initial zoom level
+      });
+  }
+
+  let bounds = new mapboxgl.LngLatBounds();
+  const itemsData = JSON.parse('{{!items_json}}');
+  const ITEMS_PER_PAGE = JSON.parse('{{!ITEMS_PER_PAGE_JSON}}');
+  // Array to keep track of markers
+  let markers = [];
+
+  // Function to escape HTML content
+  function escapeHTML(str) {
+      return String(str).replace(/[&<>"'`=\/]/g, function(s) {
+          return {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#39;',
+              '/': '&#x2F;',
+              '`': '&#x60;',
+              '=': '&#x3D;'
+          }[s];
+      });
+  }
+
+  function resetMap() {
+      // Remove all existing markers from the map
+      markers.forEach(marker => marker.remove());
+      markers = [];
+
+      // Reset map bounds
+      bounds = new mapboxgl.LngLatBounds();
+
+      // Optionally, you can also reset the map's center and zoom
+      map.setCenter([12.5683, 55.6761]);
+      map.setZoom(12);
+  }
+
+  function addMarkers(items) {
+        // Limit the number of items to ITEMS_PER_PAGE
+
+        const limit = ITEMS_PER_PAGE;
+
+        items.slice(0, limit).forEach(item => {
+            console.log(item['item_name']);
+            let itemLon = item['item_lon'];
+            let itemLat = item['item_lat'];
+            if (itemLon !== undefined && itemLat !== undefined) {
+                let lngLat = [itemLon, itemLat];
+                const marker = new mapboxgl.Marker()
+                    .setLngLat(lngLat)
+                    .addTo(map);
+                markers.push(marker);
+                bounds.extend(lngLat);
+
+                const getStarRating = (stars) => {
+                    const maxStars = 5;
+                    let starHTML = '';
+                    for (let i = 0; i < maxStars; i++) {
+                        starHTML += i < stars ? '★' : '☆';
+                    }
+                    return starHTML;
+                };
+
+                const popup = new mapboxgl.Popup({ offset: 25 })
+                    .setHTML(
+                        `<div class='popup'>
+                            <a href='/property/details/${escapeHTML(item['item_pk'])}' title='Property Details'>
+                                <img src='${escapeHTML(item['item_splash_image'])}' alt='${escapeHTML(item['item_name'])}' class='popup-image'>
+                                <h6>${escapeHTML(item['item_name'])}</h6>
+                                <p class='rating'>${getStarRating(item['item_stars'])}</p>
+                                <p>Price: ${escapeHTML(item['item_price_per_night'])} DKK</p>
+                            </a>
+                        </div>`
+                    );
+
+                marker.setPopup(popup);
+            }
+        });
+
+        // Adjust the map to fit all markers
+        map.fitBounds(bounds, { padding: 20, maxZoom: 14 });
+    }
+
+    function addToMap(data) {
+      const itemsData = JSON.parse(data);
+      if (map) {
+          addMarkers(itemsData);
+      }
+    }
+
+    function resetAndAddToMap(data) {
+      const itemsData = JSON.parse(data);
+      if (map) {
+          resetMap();
+          addMarkers(itemsData);
+      }
+    }
+
+  // Initially add markers to the map
+  addMarkers(itemsData);
+
+</script>

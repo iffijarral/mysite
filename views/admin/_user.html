@@ -1,0 +1,32 @@
+<tr>                        
+    <td>{{ my_user['user_name'] + ' ' + my_user['user_last_name']}}</td>
+    <td>{{ my_user['user_email'] }}</td>
+    <td>{{ my_user['user_role'] }}</td>
+    <td class="actions">
+        <form id="frm_{{ my_user['user_pk']}}" method="post">
+            <input name="user_id" type="hidden" value="{{my_user['user_pk']}}">
+            % if my_user['user_is_blocked'] == 0:
+                <input name="block_unblock_action" type="hidden" value="block">
+                <button class="block-btn" 
+                    mix-data="#frm_{{ my_user['user_pk']}}"
+                    mix-post="/users/{{ my_user['user_pk'] }}/block"
+                    mix-default="Block"
+                    mix-await="Please wait ..."
+                >
+                Block
+                </button>                                        
+            % else:
+                <input name="block_unblock_action" type="hidden" value="unblock">
+                <button class="edit-btn" 
+                    mix-data="#frm_{{ my_user['user_pk']}}"
+                    mix-post="/users/{{ my_user['user_pk'] }}/block"
+                    mix-default="Un-Block"
+                    mix-await="Please wait ..."
+                >
+                Un-Block
+                </button>       
+            % end
+
+        </form>
+    </td>
+</tr>

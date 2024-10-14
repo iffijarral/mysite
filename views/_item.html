@@ -1,0 +1,33 @@
+<div class="item">
+    <img src="/images/{{item['item_splash_image']}}" 
+    class="w-full h-48 aspect-square object-cover rounded-lg">
+    <div class="flex justify-between mt-2">
+        <span>
+            {{item["item_name"]}}
+        </span>
+        <span class="flex items-center gap-1">                       
+            {{item["item_stars"]}}
+        </span>
+    </div>
+    <div>
+        <span class="font-medium">
+            % price = int(item["item_price_per_night"])
+            % price = "{:,.0f}".format(price).replace(",", ".")
+            {{ price }} DKK
+        </span>
+        <span>
+            nat
+        </span>
+        % if get("is_logged", False):
+            <form id="{{item['item_pk']}}">
+                <input name="item_id" type="text" value="{{item['item_pk']}}">
+                <button
+                    mix-data="[id='{{item['item_pk']}}']"
+                    mix-post="/toogle_item_block"
+                >
+                    Block
+                </button>
+            </form>
+        % end
+    </div>
+</div>

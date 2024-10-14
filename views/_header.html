@@ -1,0 +1,162 @@
+%import x
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel="icon" href="/images/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/mixhtml.js" defer></script>
+    % if 'extra_head' in locals():
+        {{! extra_head }}
+    % end
+    <title>
+        {{ get("title", "J.Homes") }}
+    </title>
+
+</head>
+<body>
+    <div id="toast"></div>
+    <div class="wrapper">
+        <header>
+            <nav>
+                <!-- Logo -->
+                <a href="/" class="logo" title="Logo">
+                    <!-- Home Icon -->
+                    <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <span class="logo-text">J.Homes</span>
+                </a>
+
+                <!-- Search Bar -->
+
+                <div class="search-form-container">
+                    <form id="frm_search" class="search-form w-full">
+                        <div class="w-full">
+                            <input type="text" id="location" name="location" placeholder="City" class="no-border no-padding" aria-label="Location" data-type="location" class="w-full">
+                            <input type="hidden" id="current-route-input" name="current-route">
+                        </div>
+                        <div class="search-form-button-container">
+                            <button id="btnSearch" class=""
+                                mix-data="#frm_search"
+                                mix-post="/property/search"
+                                mix-default="Search"
+                                mix-await="Please wait ..."
+                            >
+                            Search
+                        </button>
+                    </div>
+                    </form>
+                    <p id="error-message" class="error_message"></p>
+                </div>
+
+
+
+                <!-- Login Icon -->
+
+                <div class="profile-container">
+                    % if get("is_logged", True):
+                        <a href="/login" class="{{ get('active_login', '') }}" title="Profile Icon">
+                            <svg id="profileIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="2rem" height="2rem" fill="currentColor" class="profile-icon">
+                                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 4a4 4 0 110 8 4 4 0 010-8zm0 14a8 8 0 01-6.39-3.032C6.214 15.46 8.973 14 12 14c3.027 0 5.786 1.46 6.39 2.968A8 8 0 0112 20z"/>
+                            </svg>
+                        </a>
+                        <div id="profileMenu" class="profile-menu">
+                            <ul class="profile-menu-ul">
+                                % if 'user' in globals() and user:
+                                    % if user.get('user_role') == 'admin':
+                                        <li><a href="/properties" title="Manage Properties">Manage Properties</a></li>
+                                        <li><a href="/admin/users" title="Manage Users">Manage Users</a></li>
+                                    % elif user.get('user_role') == 'partner':
+                                        <li><a href="/properties" title="Properties">Properties</a></li>
+                                        <li><a href="/user/bookings" title="Bookings">My Bookings</a></li>
+                                    % else:
+
+                                        <li><a href="/user/bookings" title="Bookings">My Bookings</a></li>
+                                    % end
+
+                                    <li><a href="/profile" title="Profile">Profile</a></li>
+                                    <li><a href="/password/change" title="Profile">Change Password</a></li>
+                                    <li><a href="/logout" title="Logout">Logout</a></li>
+                                % else:
+
+                                    <li><a href="/login" title="Login">Login</a></li>
+                                    <li><a href="/signup" title="Register">Register</a></li>
+                                % end
+                            </ul>
+                        </div>
+                </div>
+            </nav>
+        </header>
+<script>
+
+
+
+    const currentPath = window.location.pathname;
+    const currentRouteInput = document.querySelector("#current-route-input");
+
+    currentRouteInput.value = currentPath;
+
+    const profileIcon = document.querySelector("#profileIcon");
+    profileIcon.addEventListener('click', function(event) {
+        event.preventDefault();
+        toggleProfileMenu();
+    });
+    document.querySelectorAll('input[type="date"]').forEach(function(input) {
+        input.addEventListener('change', function() {
+            if (this.value) {
+                this.classList.add('has-value');
+            } else {
+                this.classList.remove('has-value');
+            }
+        });
+    });
+
+    function toggleProfileMenu() {
+        const profileMenu = document.getElementById('profileMenu');
+        if (profileMenu.style.display === 'none' || profileMenu.style.display === '') {
+            profileMenu.style.display = 'flex';
+        } else {
+            profileMenu.style.display = 'none';
+        }
+    }
+
+    // Optional: Close the profile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const profileMenu = document.querySelector('#profileMenu');
+        const profileIcon = document.querySelector('.profile-icon');
+        if (!profileIcon.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.style.display = 'none';
+        }
+    });
+
+    const searchInput = document.querySelector("#location");
+    const btnSearch = document.querySelector("#btnSearch");
+    const errorMsg = document.querySelector("#error-message");
+
+    btnSearch.addEventListener('click', function(e) {
+        const value = searchInput.value;
+
+        if(checkString(value)) {
+            searchInput.classList.remove("error");
+            errorMsg.classList.remove("error-message-show");
+        } else {
+            errorMsg.classList.add("error-message-show");
+            errorMsg.innerHTML = "Please give a valid input";
+            e.preventDefault();
+            searchInput.focus();
+            return false;
+        }
+    });
+
+    // input validation
+    function checkString(input) {
+        if(input === '') return false;
+        const regex = /^[a-zA-Z\s,.-øåæØÅÆ]+$/;
+        return regex.test(input);
+    }
+
+</script>

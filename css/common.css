@@ -1,0 +1,161 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+
+
+}
+body {
+    font-family: var(--font-primary);
+    font-size: var(--base-font-size);
+    line-height: var(--body-line-height);
+    color: var(--dark-charcoal);
+    background-color: var(--dark-gray);
+}
+main {
+    flex: 1;
+    margin-top: var(--main-margin-top);
+    width: min(var(--max-page-width), 100%);
+    margin-inline: auto;
+    padding: 0 var(--main-left-right-padding);
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    line-height: var(--heading-line-height);
+    font-weight: var(--font-weight-bold);
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+}
+
+h2 {
+    font-size: var(--font-size-h4);
+}
+
+h3 {
+    font-size: var(--font-size-h3);
+}
+
+h4 {
+    font-size: var(--font-size-h4);
+}
+
+h5 {
+    font-size: var(--font-size-h5);
+}
+
+h6 {
+    font-size: var(--font-size-h6);
+}
+p {
+    font-size: var(--font-size-body);
+    line-height: var(--body-line-height);
+    font-weight: var(--font-weight-normal);
+}
+
+small {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-light);
+}
+
+button {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+header, footer {
+    /* background-color: var(--neutral-light-gray); */
+}
+
+button.primary {
+    background-color: var(--fresh-green);
+    color: var(--clean-white);
+}
+
+button.secondary {
+    background-color: var(--warm-orange);
+    color: var(--clean-white);
+}
+
+a {
+    color: var(--fresh-green);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--warm-orange);
+}
+
+a.primary {
+    background-color: var(--fresh-green);
+    color: var(--clean-white);
+    padding: .5rem 1rem;
+    border-radius: 1rem;
+}
+a.primary:is(:hover, :focus) {
+    background-color: var(--warm-orange);
+}
+
+input[data-type="date"], input[data-type="location"] {
+    width: 9rem;
+}
+
+.mix-error {
+    background-color: red;
+}
+.error_message {
+    color: red !important;
+    font-size: var(--font-size-small);
+}
+.mix-hidden {
+    display: none;
+}
+.no-border {
+    border: none !important;
+}
+.no-padding {
+    padding: 0 !important;
+}
+.text-center {
+    text-align: center;
+}
+.container {
+    width: min(var(--max-page-width), 100%);
+    margin-inline: auto;
+    padding: 0 var(--main-left-right-padding);
+    background-color: var(--light-gray);
+}
+.msg {
+    text-align: center;
+    margin: 1rem auto;
+}
+.msg-box {
+    max-width: 40rem;
+    margin: 1rem auto;
+    padding: 2rem;
+    background-color: var(--clean-white);
+    border: var(--auth-container-border);
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+#error-message {
+    display: none;
+    position: absolute;
+}
+.error-message-show {
+    display: block !important;
+}
+.common-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

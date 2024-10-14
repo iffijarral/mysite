@@ -1,0 +1,55 @@
+%import x
+
+<div class="my-card">
+    <a href="/property/details/{{ item['item_pk'] }}" title="{{ item['item_name'] }}">
+    <div class="img-container">
+        <img src="/{{item['item_splash_image']}}" alt="Property Image">
+    </div>
+    <div class="property-card-content">
+        <h2>
+            {{item['item_name']}}
+            % if item['item_is_blocked'] == 1 and user['user_role'] != 'admin':
+                <span class="mix-error"> (Blocked) </span>
+            % end
+        </h2>
+
+        <p>{{x.truncate(item['item_description'], 4)}}</p>
+
+        <div class="common-flex">
+            <p>
+                ★ {{item["item_stars"]}}
+            </p>
+            <p class="price">
+                % price = int(item["item_price_per_night"])
+                % price = "{:,.0f}".format(price).replace(",", ".")
+                {{ price }} DKK per night</p>
+        </div>
+
+        % if user and (user['user_role'] == 'partner' or user['user_role'] == 'admin'):
+        <div class="actions">
+            <a href="/properties/edit/{{ item['item_pk'] }}" class="edit-btn" title="Edit Property">Edit</a>
+            % if user and user['user_role'] == 'partner':
+                <form id="frm_delete_{{ item['item_pk'] }}">
+                    <input name="property_id" type="hidden" value="{{item['item_pk']}}">
+                    <button
+                        mix-data="#frm_delete"
+                        mix-delete="/properties/{{item['item_pk']}}"
+                        mix-await="Please wait ..."
+                        class="delete-btn"
+                    >
+                        Delete
+                    </button>
+                </form>
+            % else:
+                <div id="block_button_container_{{item['item_pk']}}">
+                    %include("property/__btn_block")
+                </div>
+            % end
+        </div>
+        % end
+    </div>
+    </a>
+</div>
+
+
+

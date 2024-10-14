@@ -1,0 +1,35 @@
+<div class="property-container">
+        % if mapbox_token:
+          %include("property/__map")
+        % end
+      <div class="properties-wrap">
+        <div id="properties_wrap" class="property-list">
+          % for index, item in enumerate(items):
+            % if index < ITEMS_PER_PAGE:
+                % include("property/_property_card")
+            % end
+          % end
+        </div>
+        % if len(items) > ITEMS_PER_PAGE:
+          %include("__btn_more")
+        % end
+    </div>
+</div>
+
+<script>
+    const properties_wrap = document.querySelector("#properties_wrap");
+    const propertyCards = document.querySelectorAll(".my-card");
+    const btnMore = document.querySelector("#more");
+    const mapbox_token = '{{mapbox_token}}';
+
+    if(mapbox_token === '') {
+      properties_wrap.classList.remove("property-list");
+      properties_wrap.parentElement.classList.remove("properties-wrap");
+      properties_wrap.parentElement.parentElement.classList.remove("property-container");
+      properties_wrap.classList.add("properties-grid");
+      //if(btnMore) btnMore.style.display = "none";
+      propertyCards.forEach((card) => {
+        card.style.width = "100%";
+      });
+    }
+</script>

@@ -1,0 +1,249 @@
+%include("_header")
+%import x
+<main class="container">
+        <!-- Modal -->
+         
+            <div id="imageModal" class="modal">
+                <div class="modal-wrapper">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <div class="modal-content">
+                        <img class="modal-image" id="modalImage">
+                        <a class="prev" onclick="changeImage(-1)">&#10094;</a>
+                        <a class="next" onclick="changeImage(1)">&#10095;</a>
+                    </div>            
+                    <div class="image-counter">
+                        <span id="currentImg"></span> / <span id="totalImages"></span>
+                    </div>
+                </div>
+            </div>
+        <!-- Hero Section -->
+        %include("property/__image_galary")        
+        <!-- Main Content Section -->
+        <section class="property-content-container">
+            <div class="property-details">
+                <div>
+                    <h5>{{ property['item_name'] }}</h5>
+                    <p class="location"> {{ x.get_address_from_lat_lon(property['item_lat'], property['item_lon'], mapbox_token) }}</p>
+                </div>
+                <div>
+                    <p class="description">
+                        {{ property['item_description'] }}
+                    </p>
+                </div>
+                <div>
+                    <h5>Hosted by</h5>
+                    <p>{{property['user_name'] + ' ' + property['user_last_name'] }}</p>
+                </div>
+                <div>
+                    <h5>The most popular facilities</h5>
+                    <ul class="property-facilities">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.25 18.75a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0m1.5 0a3.75 3.75 0 1 0-7.5 0 3.75 3.75 0 0 0 7.5 0m2.08-5.833a8.25 8.25 0 0 0-11.666 0 .75.75 0 0 0 1.06 1.06 6.75 6.75 0 0 1 9.546 0 .75.75 0 0 0 1.06-1.06m3.185-3.182c-4.979-4.98-13.051-4.98-18.03 0a.75.75 0 1 0 1.06 1.06c4.394-4.393 11.516-4.393 15.91 0a.75.75 0 1 0 1.06-1.06m2.746-3.603C17.136-.043 6.864-.043.24 6.132A.75.75 0 1 0 1.26 7.23c6.05-5.638 15.429-5.638 21.478 0a.75.75 0 0 0 1.022-1.098z"></path></svg>
+                            <p>Wi-fi is available and is free of charge.</p>
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.5 9h2.25a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 0 0 1.5h7.5A2.25 2.25 0 0 0 24 12.75v-3a2.25 2.25 0 0 0-2.25-2.25H19.5a.75.75 0 0 0 0 1.5M5.25 13.5h-1.5l.75.75v-6L3.75 9h7.5a.75.75 0 0 0 0-1.5h-7.5a.75.75 0 0 0-.75.75v6c0 .414.336.75.75.75h1.5a.75.75 0 0 0 0-1.5M15 12v2.25a.75.75 0 0 0 1.5 0V12a.75.75 0 0 0-1.5 0M0 8.25v6a.75.75 0 0 0 1.5 0v-6a.75.75 0 0 0-1.5 0m1.28 15.53 22.5-22.5A.75.75 0 0 0 22.72.22L.22 22.72a.75.75 0 1 0 1.06 1.06M4.5.75A2.25 2.25 0 0 1 2.25 3 2.25 2.25 0 0 0 0 5.25a.75.75 0 0 0 1.5 0 .75.75 0 0 1 .75-.75A3.75 3.75 0 0 0 6 .75a.75.75 0 0 0-1.5 0"></path></svg>
+                            <p>Non-smoking rooms</p>
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4.5 20.213v1.5a2.25 2.25 0 0 0 4.5 0v-1.5a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 0-1.5 0m13.5 0v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 0-1.5 0v1.5a2.25 2.25 0 0 0 4.5 0v-1.5a.75.75 0 0 0-1.5 0m1.5-1.5a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75v-13.5a3.75 3.75 0 0 1 3.75-3.75h7.5a3.75 3.75 0 0 1 3.75 3.75zm1.5 0v-13.5c0-2.9-2.35-5.25-5.25-5.25h-7.5A5.25 5.25 0 0 0 3 5.213v13.5a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25M9.75 4.463h4.5a.75.75 0 0 0 0-1.5h-4.5a.75.75 0 0 0 0 1.5m-6 3h16.5l-.75-.75v7.5l.75-.75H3.75l.75.75v-7.5zm0-1.5a.75.75 0 0 0-.75.75v7.5c0 .414.336.75.75.75h16.5a.75.75 0 0 0 .75-.75v-7.5a.75.75 0 0 0-.75-.75zm3 12h3a.75.75 0 0 0 0-1.5h-3a.75.75 0 0 0 0 1.5m7.5 0h3a.75.75 0 0 0 0-1.5h-3a.75.75 0 0 0 0 1.5m-10.5-10.5h-1.5A2.25 2.25 0 0 0 0 9.713v4.5a.75.75 0 0 0 1.5 0v-4.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 0 0-1.5m16.5 1.5h1.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 0 1.5 0v-4.5a2.25 2.25 0 0 0-2.25-2.25h-1.5a.75.75 0 0 0 0 1.5"></path></svg>
+                            <p>Transport is easily available 24/7</p>
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.5 12c0 5.799-4.701 10.5-10.5 10.5S1.5 17.799 1.5 12 6.201 1.5 12 1.5 22.5 6.201 22.5 12m1.5 0c0-6.627-5.373-12-12-12S0 5.373 0 12s5.373 12 12 12 12-5.373 12-12m-9.75-1.5a1.5 1.5 0 0 1-1.5 1.5H10.5l.75.75v-4.5L10.5 9h2.25a1.5 1.5 0 0 1 1.5 1.5m1.5 0a3 3 0 0 0-3-3H10.5a.75.75 0 0 0-.75.75v4.5c0 .414.336.75.75.75h2.25a3 3 0 0 0 3-3m-4.5 6.75v-4.5a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 1.5 0"></path></svg>
+                            <p>There is no issue of parking</p>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <p>
+                        Situated within the North Myrtle Beach district in Myrtle Beach, 
+                        Baywatch Resort Oceanfront Unit 1004 has air conditioning, a patio, and sea views. 
+                        The property is located a few steps from North Myrtle Beach, 3.9 km from Alabama Theater 
+                        and 4.7 km from Barefoot Resort Norman Golf Course. The holiday home provides parking on-site, 
+                        an outdoor swimming pool and a lift.
+                    </p>
+                    <p>
+                        With free WiFi, this 1-bedroom holiday home features a TV, 
+                        a washing machine and a fully equipped kitchen with a dishwasher and oven. 
+                        Towels and bed linen are offered in the holiday home. 
+                        For added privacy, the accommodation features a private entrance.
+                    </p>
+                    <p>
+                        Guests can enjoy the indoor pool at the holiday home.
+                    </p>
+                    <p>
+                        Barefoot Landing is 4.8 km from Baywatch Resort Oceanfront Unit 1004, 
+                        while Carolina Opry Theater is 11 km from the property. 
+                        The nearest airport is Myrtle Beach International Airport, 31 km from the accommodation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Booking Box -->
+            <aside class="booking-box slide-up-div hide-aside">
+                <div class="price">
+                    <h5>                    
+                        % price = int(property['item_price_per_night'])
+                        % price = "{:,.0f}".format(price).replace(",", ".")                    
+                        {{ price }} DKK per night
+                    </h5>                    
+                </div>
+                <div>
+                    <form id="frm_book" action="">
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="text" name="checkin" placeholder="Check-in" aria-label="Check-in date" data-type="date" onfocus="(this.type='date')" onblur="(this.type='text')" value="{{ booking['checkin'] if booking else '' }}">
+                                </td>                                
+                                <td>
+                                    <input type="text" name="checkout" placeholder="Check-out" aria-label="Check-out date" data-type="date" onfocus="(this.type='date')" onblur="(this.type='text')" value="{{ booking['checkout'] if booking else '' }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="number" name="guests" placeholder="Guests" aria-label="Number of guests" class="w-full" value="{{ booking['guests'] if booking else '' }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button class="btn-primary w-full"
+                                        mix-data="#frm_book"
+                                        mix-post="/user/book/{{property['item_pk']}}"
+                                        mix-default="Book"
+                                        mix-await="Please wait ..."
+                                    >
+                                        Book Now
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>                    
+                </div>     
+                <button class="close-slide-up">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M12 10.585l6.293-6.293 1.414 1.414-6.293 6.293 6.293 6.293-1.414 1.414-6.293-6.293-6.293 6.293-1.414-1.414 6.293-6.293-6.293-6.293 1.414-1.414z"/>
+                    </svg>
+                </button>           
+            </aside>
+            <button class="btn-primary w-full show-slide-up">Book Now</button>
+        </section>    
+</main>
+%include("_footer")
+
+<script>        
+    const heroGridImages = document.querySelector('.hero-grid-images');
+    const images = JSON.parse('{{!propertyImages}}');    
+    const heroThumbnails = document.querySelector('.hero-thumbnails');
+        
+
+    // Function to get the value of a CSS variable
+    function getCssVariableValue(variable) {
+        return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+    }        
+
+    // Images Model
+    let currentImageIndex = 0;
+    const currentImg = document.querySelector("#currentImg");
+    const totalImages = document.querySelector("#totalImages");
+    totalImages.textContent = images.length;    
+
+    function drawThumbnails(images, maxThumbnails)
+    {
+        heroThumbnails.innerHTML = '';
+        images.forEach((image, index) => {
+            if (index >= 3 && index < maxThumbnails + 3) { // Adjust the range to skip the first three images
+                const thumbnailContainer = document.createElement('div');                        
+                thumbnailContainer.classList.add('grid-item');
+                heroThumbnails.appendChild(thumbnailContainer);
+        
+                if ((index + 1) !== maxThumbnails + 3) { // Adjust the comparison for the new index range
+                    thumbnailContainer.innerHTML = `<img src="/images/${image.path}" alt="Thumbnail ${index + 1 - 3}">`; // Adjust the alt text numbering
+                } else {
+                    thumbnailContainer.innerHTML = `
+                        <img src="/images/${image.path}" alt="Thumbnail ${index + 1 - 3}">                        
+                        <a href="#" class="show-more-link" title="show more" onclick="openModal(0)">show more</a>    
+                    `;
+                }
+            }
+        });
+    }
+
+    handleResize();
+        
+    function handleResize() {
+        let maxThumbnails = parseInt(getCssVariableValue('--max-thumbnails'), 10);
+        drawThumbnails(images, maxThumbnails);        
+    }
+
+    function openModal(index) 
+    {        
+        currentImageIndex = index;
+        document.querySelector('#modalImage').src = '/images/'+images[currentImageIndex].path;
+        document.querySelector('#imageModal').style.display = "block";                
+        currentImg.textContent = currentImageIndex + 1;
+    }
+
+    function closeModal() 
+    {        
+        document.querySelector('#imageModal').style.display = "none";
+    }
+
+    function changeImage(direction) 
+    {
+        currentImageIndex += direction;
+        if (currentImageIndex >= images.length) {
+            currentImageIndex = 0;
+        } else if (currentImageIndex < 0) {
+            currentImageIndex = images.length - 1;
+        }
+        document.querySelector('#modalImage').src = '/images/'+images[currentImageIndex].path;
+        currentImg.textContent = currentImageIndex + 1;
+    }
+
+
+    // Following code is for booking section slide up for mobile version.
+    const showSlideUp = document.querySelector(".show-slide-up");
+
+    const closeSlideUp = document.querySelector(".close-slide-up");
+
+    const slideUpDiv = document.querySelector('.slide-up-div');
+
+    showSlideUp.addEventListener("click", function() {
+        toggleSlideUpDiv();
+    });
+
+    closeSlideUp.addEventListener("click", function() {
+        toggleSlideUpDiv();
+    });
+
+    function toggleSlideUpDiv() 
+    {
+        slideUpDiv.classList.toggle('active');
+        slideUpDiv.classList.remove('hide-aside');
+    }            
+
+    function checkViewportWidth() {
+        
+        if (window.innerWidth > 640) {
+            slideUpDiv.classList.remove('slide-up-div');                        
+        } else {            
+            slideUpDiv.classList.add('slide-up-div');            
+        }     
+        
+      
+    }
+
+    checkViewportWidth();
+    
+    window.addEventListener('resize', () => {
+        checkViewportWidth();
+        handleResize();
+    });
+
+    function resetForm()
+    {
+        const form = document.querySelector("#frm_book");
+        form.reset();        
+    }
+</script>

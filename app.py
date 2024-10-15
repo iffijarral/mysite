@@ -105,7 +105,8 @@ def _(error):
   return template("404_error_template")
 
 ##############################
-run(host="0.0.0.0", port=80, debug=True, reloader=True)
+print('Serving app server on 0.0.0.0:8000')
+run(host="0.0.0.0", port=8000, debug=True, reloader=True)
 # try:
 #     import production
 #     application = default_app()

@@ -1,13 +1,24 @@
 version: "3.1"
 services:
-  python:
+  db:                                                                                                                                                     
+    image: postgres:alpine                                                                                                                                
+    volumes:                                                                                                                                              
+      - postgres_db:/var/lib/postgresql/data                                                                                                              
+      - ./dbfiles:/dbfiles                                                                                                                                
+    env_file:                                                                                                                                             
+      - env
+  app:
+    image: homes      
     environment:
-      - PYTHONUNBUFFERED=1
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: bottlesite_container
+      - PYTHONUNBUFFERED=1    
+    container_name: homes_container
+    env_file:
+      - env
     ports:
-      - 80:80
+      - 80:8000
+    depends_on:
+      - db
     volumes:
       - ./:/app
+volumes:                                                                                                                                                  
+  postgres_db:

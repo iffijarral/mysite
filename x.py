@@ -10,6 +10,9 @@ from email.mime.text import MIMEText
 from datetime import datetime, date
 import json
 import requests
+import psycopg2                                                                                                                                           
+import psycopg2.extras                                                                                                                                    
+import os
 
 ITEMS_PER_PAGE = 5
 COOKIE_SECRET = "41ebeca46f3b-4d77-a8e2-554659075C6319a2fbfb-9a2D-4fb6-Afcad32abb26a5e0"
@@ -28,6 +31,16 @@ def db():
     db.row_factory = dict_factory
     return db
 
+##############################
+def db_postgres():                                                                                                                                          
+  conn = psycopg2.connect(                                                                                                                               
+  host = 'db',# this is service name in docker-compose file                                                                                     
+  dbname=os.environ['POSTGRES_DB'],                                                                                                             
+  user=os.environ['POSTGRES_USER'],                                                                                                             
+  password=os.environ['POSTGRES_PASSWORD']                                                                                                      
+  )                                                                                                                                             
+  cur = conn.cursor()                                                                                                                                   
+  return cur
 ##############################
 def no_cache():
     response.add_header("Cache-Control", "no-cache, no-store, must-revalidate")

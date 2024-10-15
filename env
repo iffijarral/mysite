@@ -1,0 +1,3 @@
+POSTGRES_DB=dbhomes                                                                                                                                       
+POSTGRES_USER=pguser                                                                                                                                      
+POSTGRES_PASSWORD=123456

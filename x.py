@@ -297,7 +297,7 @@ def send_email(user_name, receiver_email, verification_key, action, title):
     # Email configuration
     sender_email = "iffijarral@gmail.com"
     password = "flolrybuytwclchl"
-    subject = "Test Email via Python"
+    subject = "J.Homes Email"
     # message_body = "<h1>Hello, this is a test email sent via Python!</h1>"
     message_body = template('email/email_welcome', user_name = user_name, verification_key = verification_key, action = action, title = title)
     # Create message container
@@ -320,7 +320,7 @@ def send_email(user_name, receiver_email, verification_key, action, title):
 
         # Quit SMTP session
         server.quit()
-
+        print(f"{'x'*10} email sent successfully {'x'*10}")
         return True
     except Exception as e:
         print("An error occurred:", e)

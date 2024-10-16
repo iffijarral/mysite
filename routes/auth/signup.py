@@ -31,33 +31,32 @@ def _():
 
         x.confirm_password()
 
-        db = x.db()
+            # Using PostgreSQL connection
+        with x.db_postgres() as conn:
+            with conn.cursor() as cur:
+                user_id = uuid.uuid4().hex
 
-        user_id = uuid.uuid4().hex
+                # Get the current timestamp
+                user_created_at = int(time.time())
+                user_updated_at = 0  # Assuming you want to set this to 0 for a new user
 
-        user_updated_at = 0
+                # Hashing the password
+                user_password_encoded = user_password.encode('utf-8')
+                salt = bcrypt.gensalt()
+                hashed_password = bcrypt.hashpw(user_password_encoded, salt)
 
-        user_created_at = int(time.time())
+                # Use %s placeholders for PostgreSQL
+                sql = "INSERT INTO users (user_pk, user_username, user_name, user_last_name, user_email, user_password, user_role, user_created_at, user_updated_at, user_is_verified, user_is_blocked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                cur.execute(sql, (user_id, user_username, user_first_name, user_last_name, user_email, hashed_password, user_role, user_created_at, user_updated_at, user_is_verified, user_is_blocked))
 
-        # user_password = b'password' # b infront of 'password' is important
+                # Get verification_key and timestamp
+                user_verification_key, user_verification_timestamp = x.generate_verification_key(user_email)
 
-        user_password = user_password.encode('utf-8')
+                # Save key and timestamp values into email_verifications table
+                cur.execute("INSERT INTO email_verifications (user_id, verification_key, verification_timestamp) VALUES (%s, %s, %s)", (user_id, user_verification_key, user_verification_timestamp))
 
-        salt = bcrypt.gensalt()
-
-        hashed_password = bcrypt.hashpw(user_password, salt)
-
-        sql = db.execute("INSERT INTO users VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (user_id, user_username, user_first_name, user_last_name, user_email, hashed_password, user_role, user_created_at, user_updated_at, user_is_verified,  user_is_blocked))
-
-        db.commit()
-
-        # Get verification_key and timestamp
-        user_verification_key, user_verification_timestamp = x.generate_verification_key(user_email)
-
-        # Save key and timestamp values into email_verifications table. These values will be used while signup verification.
-        db.execute('INSERT INTO email_verifications (user_id, verification_key, verification_timestamp) VALUES (?, ?, ?)', (user_id, user_verification_key, user_verification_timestamp))
-
-        db.commit()
+            # Commit the transaction after all operations
+            conn.commit()
 
 
         if x.send_email(user_first_name, user_email, user_verification_key, "signup", "User Registration Email"):

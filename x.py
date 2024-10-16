@@ -11,7 +11,8 @@ from datetime import datetime, date
 import json
 import requests
 import psycopg2                                                                                                                                           
-import psycopg2.extras                                                                                                                                    
+import psycopg2.extras   
+from psycopg2.extras import RealDictCursor                                                                                                                                 
 import os
 
 ITEMS_PER_PAGE = 5
@@ -33,14 +34,15 @@ def db():
 
 ##############################
 def db_postgres():                                                                                                                                          
-  conn = psycopg2.connect(                                                                                                                               
-  host = 'db',# this is service name in docker-compose file                                                                                     
-  dbname=os.environ['POSTGRES_DB'],                                                                                                             
-  user=os.environ['POSTGRES_USER'],                                                                                                             
-  password=os.environ['POSTGRES_PASSWORD']                                                                                                      
-  )                                                                                                                                             
-  cur = conn.cursor()                                                                                                                                   
-  return cur
+  conn = psycopg2.connect(
+        host='db',  # this is the service name in docker-compose
+        dbname=os.environ['POSTGRES_DB'],
+        user=os.environ['POSTGRES_USER'],
+        password=os.environ['POSTGRES_PASSWORD']
+    )
+    # Set RealDictCursor as the cursor_factory
+  conn.cursor_factory = RealDictCursor
+  return conn
 ##############################
 def no_cache():
     response.add_header("Cache-Control", "no-cache, no-store, must-revalidate")
@@ -50,8 +52,12 @@ def no_cache():
 
 ##############################
 def validate_user_logged():
-    user = request.get_cookie("user", secret=COOKIE_SECRET)
-    if user is None: raise Exception("User must be logged in", 400)
+    user = request.get_cookie(COOKIE_NAME, secret=COOKIE_SECRET)    
+    
+    if user is None: raise Exception("User must be logged in", 400)    
+    
+    user = json.loads(user)    
+
     return user
 
 

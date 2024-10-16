@@ -5,6 +5,7 @@ import json
 import credentials
 import os
 import git
+from psycopg2.extras import RealDictCursor 
 
 @post('/secret_url_for_git_hook')
 def git_update():
@@ -36,8 +37,10 @@ def _(file_name):
 def before_request():
     try:
         user = x.validate_user_logged()
+        print(f"{'x'*10} The user is {user} {'x'*10}")
         request.environ[x.COOKIE_NAME] = user
-    except Exception:
+    except Exception as e:
+        print(f"Error validating user: {e}")  # Log the exception for debugging
         request.environ[x.COOKIE_NAME] = None
 
 
@@ -62,30 +65,40 @@ def _(item_splash_image):
 ##############################
 @get("/")
 def _():
-    try:
-        db = x.db()
-        # q = db.execute("SELECT * FROM items ORDER BY item_created_at LIMIT 0, ?", (x.ITEMS_PER_PAGE,))
-        # items = q.fetchall()
-        # ic(items)
-        user = request.environ.get('user')
+    try:        
+        with x.db_postgres() as conn:  # Ensures connection is closed
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:  # Ensures cursor is closed
+                user = request.environ.get('user')
+                search_location = request.query.search_location
 
-        search_location = request.query.search_location
+                if search_location:
+                    cur.execute(
+                        "SELECT * FROM items WHERE item_is_blocked = 0 AND LOWER(item_city) = LOWER(%s) ORDER BY item_created_at LIMIT %s OFFSET %s",
+                        (search_location, x.ITEMS_PER_PAGE, 0)
+                    )
+                else:
+                    cur.execute(
+                        "SELECT * FROM items WHERE item_is_blocked = 0 ORDER BY item_created_at LIMIT %s OFFSET %s",
+                        (x.ITEMS_PER_PAGE + 1, 0)
+                    )
 
-        if search_location:
-            items = db.execute("SELECT * FROM items WHERE item_is_blocked = 0 AND LOWER(item_city) = LOWER(?) ORDER BY item_created_at LIMIT ? OFFSET ?", (search_location, x.ITEMS_PER_PAGE, 0,)).fetchall()
-        # items = db.execute("SELECT * FROM items WHERE item_is_blocked = 0").fetchall()
-        else:
-            items = db.execute("SELECT * FROM items WHERE item_is_blocked = 0 ORDER BY item_created_at LIMIT ? OFFSET ?", (x.ITEMS_PER_PAGE + 1, 0,)).fetchall()
-
-        items_json = json.dumps(items) # This data will be used in script
-
-        return template("index", user = user, mapbox_token=credentials.mapbox_token, items = items, items_json = items_json, page_number = 1, source = 'index', ITEMS_PER_PAGE = x.ITEMS_PER_PAGE, ITEMS_PER_PAGE_JSON = json.dumps(x.ITEMS_PER_PAGE))
-
+                items = cur.fetchall()  # Fetch all items as dicts
+                items_json = json.dumps(items)
+                print(f'{"x" * 10} fetched from postgres {"x" * 10}')
+        return template(
+            "index",
+            user=user,
+            mapbox_token=credentials.mapbox_token,
+            items=items,
+            items_json=items_json,
+            page_number=1,
+            source='index',
+            ITEMS_PER_PAGE=x.ITEMS_PER_PAGE,
+            ITEMS_PER_PAGE_JSON=json.dumps(x.ITEMS_PER_PAGE)
+        )
     except Exception as ex:
-        ic(ex)
-    finally:
-        if "db" in locals(): db.close()
-
+        print(ex)
+               
 
     user = request.environ.get('user')
     return template("listings.html", mapbox_token=credentials.mapbox_token, user = user)

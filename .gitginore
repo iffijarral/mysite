@@ -1,0 +1,119 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment directories
+venv/
+env/
+ENV/
+.venv/
+.virtualenv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VSCode project files
+.vscode/
+
+# pyenv
+.python-version
+
+# Pipenv
+Pipfile.lock
+pipenv.lock
+
+# Poetry
+poetry.lock
+
+# PEP 582; used by e.g. pdm
+__pypackages__/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# PyInstaller
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Pytest cache
+.pytest_cache/
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+
+# Flask instance folder
+instance/
+
+# Static and media folders for Django or Flask
+staticfiles/
+media/
+
+# Local development
+local_settings.py
+
+# IDEs / Text editor files
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# macOS / Linux system files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+*.env
+.env
+env
+# Ignore environment variable files
+.env.*
+
+# Celery beat schedule file
+celerybeat-schedule
+
+# Coverage tool
+.cache
+
+# SQL / Database
+*.sqlite3
+*.db
+
+# Python-specific logs
+*.log
+*.out
+*.err
+
+# MyPy cache
+.mypy_cache/
+
+# Pyre
+.pyre/
+
+# Jupyter Notebook metadata
+.ipynb_checkpoints/
+
+# Temporary files
+*.tmp
+*.temp
